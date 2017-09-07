@@ -1,16 +1,21 @@
 package com.develoment.kelvin.journey.Login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.develoment.kelvin.journey.R;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+import Main.MainActivity;
+
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginViewInterface{
 
     private EditText userName;
     private EditText userPassword;
+    private LoginPresenterInterface loginPresenterInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +25,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userName = (EditText) findViewById(R.id.username);
         userPassword = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
+
+        loginPresenterInterface = new LoginPresenterImpl(this);
+    }
+
+    @Override
+    public void loginSuccess() {
+        Log.d("xxxxxxxxxxxx","xxxxxxxx");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
-        
+        loginPresenterInterface.isLoginValid(userName.getText().toString(), userPassword.getText().toString());
+    }
+
+    @Override
+    public void showErrorName() {
+        userName.setHint(getString(R.string.username_error));
+    }
+
+    @Override
+    public void showErrorPassword() {
+        userPassword.setHint(getString(R.string.password_error));
     }
 }
