@@ -30,7 +30,8 @@ public class LoginPresenterImpl implements LoginPresenterInterface, LoginInterac
 
     @Override
     public void isLoginValid(String userName, String userPassword) {
-            loginInteractorInterface.login(userName, userPassword, this);
+            loginInteractorInterface.login(userName, userPassword, this);// 要讓 LoginInteractorImpl 知道要回傳給誰因為 presenter implements LoginInteractorInterface.OnListenReturn
+        //所以傳this過去
     }
 
     @Override

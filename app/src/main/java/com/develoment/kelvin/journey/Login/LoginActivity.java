@@ -26,12 +26,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userPassword = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
 
-        loginPresenterInterface = new LoginPresenterImpl(this);
+        loginPresenterInterface = new LoginPresenterImpl(this);//用 LoginViewInterface 代替 context 傳ds進去'
     }
 
     @Override
     public void loginSuccess() {
-        Log.d("xxxxxxxxxxxx","xxxxxxxx");
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
