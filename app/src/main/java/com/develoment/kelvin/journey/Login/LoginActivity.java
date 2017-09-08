@@ -11,11 +11,11 @@ import com.develoment.kelvin.journey.R;
 
 import Main.MainActivity;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginViewInterface{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginView{
 
     private EditText userName;
     private EditText userPassword;
-    private LoginPresenterInterface loginPresenterInterface;
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,28 +25,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userName = (EditText) findViewById(R.id.username);
         userPassword = (EditText) findViewById(R.id.password);
         findViewById(R.id.button).setOnClickListener(this);
-
-        loginPresenterInterface = new LoginPresenterImpl(this);//用 LoginViewInterface 代替 context 傳ds進去'
-    }
-
-    @Override
-    public void loginSuccess() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        loginPresenter = new LoginPresenterImpl(this);
     }
 
     @Override
     public void onClick(View v) {
-        loginPresenterInterface.isLoginValid(userName.getText().toString(), userPassword.getText().toString());
+        loginPresenter.checkValidation(userName.getText().toString(), userPassword.getText().toString());
     }
 
     @Override
-    public void showErrorName() {
-        userName.setHint(getString(R.string.username_error));
+    public void login() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
-    public void showErrorPassword() {
-        userPassword.setHint(getString(R.string.password_error));
+    public void showPasswordError() {
+        userPassword.setHint(R.string.password_error);
+    }
+
+    @Override
+    public void showNameError() {
+        userName.setHint(R.string.username_error);
     }
 }
+

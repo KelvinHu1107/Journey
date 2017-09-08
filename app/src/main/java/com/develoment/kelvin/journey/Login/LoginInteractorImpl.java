@@ -4,28 +4,27 @@ package com.develoment.kelvin.journey.Login;
  * Created by Kelvin on 2017/9/8.
  */
 
-public class LoginInteractorImpl implements LoginInteractorInterface {
-
+public class LoginInteractorImpl implements LoginInteractor{
 
     @Override
-    public void login(final String userName, final String userPassword, final OnListenReturn listenReturn) {
-
-
+    public void checkInfo(String name, String password, LoginInteractor.OnReturn onReturn) {
         boolean error = false;
 
-        if(userName.isEmpty()){
-            listenReturn.userNameOnFail();
+        if(name.isEmpty()){
             error = true;
-        }
+            onReturn.errorName();
 
-        if(userPassword.isEmpty()){
-            listenReturn.userPasswordOnFail();
+        }
+        if(password.isEmpty()){
             error = true;
+            onReturn.errorPassword();
         }
 
         if(!error){
-            listenReturn.onSuccess();
+            onReturn.onSuccess();
         }
     }
+
+
 
 }

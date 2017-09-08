@@ -4,40 +4,32 @@ package com.develoment.kelvin.journey.Login;
  * Created by Kelvin on 2017/9/8.
  */
 
-public class LoginPresenterImpl implements LoginPresenterInterface, LoginInteractorInterface.OnListenReturn {
+public class LoginPresenterImpl implements LoginPresenter, LoginInteractor.OnReturn {
 
-    private LoginInteractorInterface loginInteractorInterface = new LoginInteractorImpl();
-    private LoginViewInterface loginViewInterface;
+    private LoginView loginView;
+    private LoginInteractor loginInteractor = new LoginInteractorImpl();
 
-    public LoginPresenterImpl(LoginViewInterface loginViewInterface) {
-        this.loginViewInterface = loginViewInterface;
+    public LoginPresenterImpl(LoginView loginView) {
+        this.loginView = loginView;
+    }
+
+    @Override
+    public void checkValidation(String name, String password) {
+        loginInteractor.checkInfo(name, password, this);
     }
 
     @Override
     public void onSuccess() {
-        loginViewInterface.loginSuccess();
+        loginView.login();
     }
 
     @Override
-    public void userNameOnFail() {
-        loginViewInterface.showErrorName();
+    public void errorName() {
+        loginView.showNameError();
     }
 
     @Override
-    public void userPasswordOnFail() {
-        loginViewInterface.showErrorPassword();
-    }
-
-    @Override
-    public void isLoginValid(String userName, String userPassword) {
-            loginInteractorInterface.login(userName, userPassword, this);// 要讓 LoginInteractorImpl 知道要回傳給誰因為 presenter implements LoginInteractorInterface.OnListenReturn
-        //所以傳this過去
-    }
-
-    @Override
-    public void onDestroy() {
-        if(loginViewInterface != null){
-            loginViewInterface = null;
-        }
+    public void errorPassword() {
+        loginView.showPasswordError();
     }
 }
